@@ -1,8 +1,8 @@
 # onboard-flow-demo
 Demo API integration project using Stripe, DocuSign, monday.com, Algolia, and Zapier
-**End-to-end demo:** Customer order → Stripe (payment) → DocuSign (e-sign) → monday.com (project) → Algolia (index). Webhooks update state.
+**End-to-end demo:** Customer order → Stripe (payment) → DocuSign (e-sign) → monday.com (task managment) → Algolia (search index) Zapier (notifications).
 
-This repository is a complete starter you can use for interviews and demos. It includes:
+This repository includes:
 
 - `server.js` — Node.js/Express backend that orchestrates the flow
 - `package.json` (instructions below for creation)
