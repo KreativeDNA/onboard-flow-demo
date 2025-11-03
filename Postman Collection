@@ -1,0 +1,129 @@
+{
+  "info": {
+    "_postman_id": "f223ef02-5ab2-4a58-a56b-89328e7b0a15",
+    "name": "Onboard Flow Demo",
+    "description": "End-to-end API workflow demo integrating Stripe, DocuSign, monday.com, Algolia, and Zapier. Created by Damien Sparks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Step 1 - Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"product\": \"Website Design Package\",\n  \"price\": 99.99\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/orders",
+          "host": ["{{base_url}}"],
+          "path": ["orders"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Step 2 - Get Payment Intent (Stripe)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{stripe_secret_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://api.stripe.com/v1/payment_intents",
+          "protocol": "https",
+          "host": ["api", "stripe", "com"],
+          "path": ["v1", "payment_intents"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Step 3 - Create DocuSign Envelope",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{docusign_access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"templateId\": \"{{docusign_template_id}}\",\n  \"status\": \"sent\",\n  \"templateRoles\": [\n    {\n      \"email\": \"john@example.com\",\n      \"name\": \"John Doe\",\n      \"roleName\": \"Signer\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "https://demo.docusign.net/restapi/v2.1/accounts/{{docusign_account_id}}/envelopes",
+          "protocol": "https",
+          "host": ["demo", "docusign", "net"],
+          "path": ["restapi", "v2.1", "accounts", "{{docusign_account_id}}", "envelopes"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Step 4 - Simulate DocuSign Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"envelopeId\": \"{{sample_envelope_id}}\",\n  \"status\": \"completed\",\n  \"event\": \"envelope-completed\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/webhook/docusign",
+          "host": ["{{base_url}}"],
+          "path": ["webhook", "docusign"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "stripe_secret_key",
+      "value": "sk_test_1234567890"
+    },
+    {
+      "key": "docusign_access_token",
+      "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+    },
+    {
+      "key": "docusign_account_id",
+      "value": "12345678"
+    },
+    {
+      "key": "docusign_template_id",
+      "value": "abcd-efgh-1234"
+    },
+    {
+      "key": "sample_envelope_id",
+      "value": "test-envelope-123"
+    }
+  ]
