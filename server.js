@@ -226,7 +226,4 @@ app.get('/orders', (req, res) => {
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 
-* Convert README + server.js into actual GitHub repo (I can provide `git` commands and a `README.md` file to copy).
-* Create a short 3-bullet demo script for your LinkedIn video.
 
-Tell me which you'd like next and I’ll produce it.
